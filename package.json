@@ -3,13 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "8.x.x"
+  },
   "scripts": {
     "start": "node server",
     "test": "echo \"Running unit tests\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "kubernetes",
+    "gitlab-ci",
+    "nodejs"
+  ],
+  "author": "borja.tur@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:borjatur/hapijs-test-service-gitlabci-kubernetes.git"
+  },
   "dependencies": {
     "@hapi/hapi": "^17.9.0",
     "@hapi/joi": "^15.0.2"
