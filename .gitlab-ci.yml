@@ -52,6 +52,7 @@ deploy-app:
     - kubectl --kubeconfig=gitlab-config version
     - sed -i "s/<DOCKER_REGISTRY>/${DOCKER_REGISTRY}/g" deployment.yml
     - sed -i "s/<VERSION>/${CI_BUILD_REF}/g" deployment.yml
+    - sed -i "s/<SERVICE_HOST>/${SERVICE_HOST}/g" deployment.yml
     - kubectl --kubeconfig=gitlab-config apply -f deployment.yml
 
 

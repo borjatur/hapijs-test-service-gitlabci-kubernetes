@@ -37,7 +37,6 @@ spec:
             initialDelaySeconds: 2
             periodSeconds: 2
 ---
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -47,3 +46,17 @@ spec:
     app: node
   ports:
     - port: 3000 # Default port for image
+---    
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: test-ingress
+spec:
+  rules:
+    - host: <SERVICE_HOST>
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: test-server-service
+            servicePort: 3000
