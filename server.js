@@ -17,7 +17,7 @@ const init = async () => {
         failAction: async (request, h, err) => { throw err; }
       }
     },
-    handler: (request, h) => {
+    handler: (/*request, h*/) => {
       return 'Hello from k8s poseidon v2';
     }
   });
@@ -31,7 +31,7 @@ const init = async () => {
         failAction: async (request, h, err) => { throw err; }
       }
     },
-    handler: (request, h) => {
+    handler: (/*request, h*/) => {
       return 'OK';
     }
   });

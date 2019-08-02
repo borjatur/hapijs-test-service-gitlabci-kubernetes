@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node server",
-    "test": "echo \"Running unit tests\""
+    "lint": "node_modules/.bin/eslint .",
+    "test": "node_modules/.bin/lab"
   },
   "keywords": [
     "kubernetes",
@@ -24,5 +25,11 @@
   "dependencies": {
     "@hapi/hapi": "^17.9.0",
     "@hapi/joi": "^15.0.2"
+  },
+  "devDependencies": {
+    "@hapi/code": "^6.0.0",
+    "@hapi/lab": "^19.1.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-node": "^9.1.0"
   }
 }
