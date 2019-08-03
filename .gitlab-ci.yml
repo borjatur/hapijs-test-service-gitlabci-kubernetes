@@ -1,4 +1,4 @@
-image: borjatur/images:custom-gitlab-ci-latest
+image: borjatur/custom-gitlab-ci:latest
 services:
 - docker:dind
 
