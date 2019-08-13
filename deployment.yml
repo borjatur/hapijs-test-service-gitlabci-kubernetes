@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-server
+  name: $POS_APP_NAME
   labels:
     app: node
 spec:
@@ -20,32 +20,33 @@ spec:
         app: node
     spec:
       containers:
-        - name: node-sample
-          image: <DOCKER_REGISTRY>/node-sample:<VERSION>
+        - name: $POS_APP_NAME
+          image: $DOCKER_REGISTRY/$POS_APP_NAME@$DOCKER_RELEASE_SHA
+          imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - containerPort: $POS_APP_PORT
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 3000
+              port: $POS_APP_PORT
             initialDelaySeconds: 2
             periodSeconds: 2
           readinessProbe:
             httpGet:
               path: /healthz
-              port: 3000
+              port: $POS_APP_PORT
             initialDelaySeconds: 2
             periodSeconds: 2
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: test-server-service
+  name: $POS_APP_NAME-service
 spec:
   selector:
     app: node
   ports:
-    - port: 3000 # Default port for image
+    - port: $POS_APP_PORT # Default port for image
 ---    
 kind: Ingress
 apiVersion: extensions/v1beta1
@@ -53,10 +54,10 @@ metadata:
   name: test-ingress
 spec:
   rules:
-    - host: <SERVICE_HOST>
+    - host: $SERVICE_HOST
       http:
         paths:
         - path: /
           backend:
-            serviceName: test-server-service
-            servicePort: 3000
+            serviceName: $POS_APP_NAME-service
+            servicePort: $POS_APP_PORT

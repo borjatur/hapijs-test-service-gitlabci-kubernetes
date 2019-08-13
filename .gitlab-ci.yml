@@ -1,19 +1,23 @@
 image: borjatur/custom-gitlab-ci:latest
 services:
-- docker:dind
+- docker:18.09-dind
 
 stages:
 - build
 - lint-test
+- branch-build-clean
+- master-clean-fail
 - release
 - deploy
+- rollback
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_HOST: tcp://localhost:2375
-  CONTAINER_NAME: node-sample
-  CONTAINER_TEST_IMAGE: $DOCKER_REGISTRY/$CONTAINER_NAME:$CI_BUILD_REF
-  CONTAINER_RELEASE_IMAGE: $DOCKER_REGISTRY/$CONTAINER_NAME:latest
+  DOCKER_HOST: tcp://localhost:2375 #set to tcp://docker:2375/ non kubernetes executor
+  POS_APP_NAME: node-sample
+  POS_APP_PORT: 3000
+  CONTAINER_TEST_IMAGE: $DOCKER_REGISTRY/$POS_APP_NAME:$CI_BUILD_REF
+  CONTAINER_RELEASE_IMAGE: $DOCKER_REGISTRY/$POS_APP_NAME:production
 
 before_script:
   - make ci-before-script
@@ -26,7 +30,22 @@ build:
 lint-test:
   stage: lint-test
   script:
-     - make ci-lint-test
+    - make ci-lint-test
+
+branch-build-clean:
+  stage: branch-build-clean
+  except:
+    - master
+  script:
+    - make ci-clean-image
+
+master-clean-fail:
+  stage: master-clean-fail
+  only:
+    - master
+  when: on_failure
+  script:
+    - make ci-clean-image
 
 release-image:
   stage: release
@@ -42,4 +61,11 @@ deploy-app:
   script:
     - make ci-deploy
 
+rollback:
+  stage: rollback
+  when: manual
+  only:
+    - master
+  script:
+    - make ci-rollback
 
