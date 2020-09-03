@@ -23,7 +23,7 @@
     "url": "git@github.com:borjatur/hapijs-test-service-gitlabci-kubernetes.git"
   },
   "dependencies": {
-    "@hapi/hapi": "^17.9.0",
+    "@hapi/hapi": "^19.1.1",
     "@hapi/joi": "^15.0.2"
   },
   "devDependencies": {
